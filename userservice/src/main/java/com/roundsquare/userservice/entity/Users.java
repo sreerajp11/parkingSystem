@@ -12,12 +12,11 @@ import lombok.Data;
 @Enabled
 @Data
 public class Users {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message= "Name cannot be null")
+    @NotNull(message = "Name cannot be null")
     private String name;
 
     @NotBlank(message = "Email cannot be blank")
@@ -25,4 +24,25 @@ public class Users {
     private String email;
     private String password;
     private String role;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
 }
