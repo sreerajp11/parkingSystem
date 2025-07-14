@@ -3,7 +3,6 @@ package com.roundsquare.userservice.service;
 import com.roundsquare.userservice.entity.Users;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     Users saveUser(Users user);
@@ -11,4 +10,6 @@ public interface UserService {
     Users getUserById(Long id);
 
     List<Users> getAllUsers();
+
+    Users findByEmailAndPassword(String email);
 }
