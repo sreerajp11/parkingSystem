@@ -1,10 +1,7 @@
 package com.roundsquare.userservice.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +22,7 @@ public class Users {
     @Email(message = "Email should be valid")
 
     @Schema(description = "Email id", example = "britas@gmail.com")
+    @Column(unique = true)
     private String email;
 
     @Schema(description = "Password of the user", minLength = 6)

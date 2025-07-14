@@ -30,7 +30,7 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Operation(summary = "Get all users", description = "Fetches a list of all registered users")
+    @Operation(summary = "Get all users", description = "Fetches a list of all registered users, required JWT")
     @ApiResponse(responseCode = "200", description = "Returns list of all users")
     @GetMapping("/allUsers")
     public ResponseEntity<List<Users>> getAllUsers() {
@@ -39,7 +39,7 @@ public class UserController {
     }
 
 
-    @Operation(summary = "Get user by ID")
+    @Operation(summary = "Get user by ID,requires JWT")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "User found"),
             @ApiResponse(responseCode = "404", description = "User not found")})
     @GetMapping("/{id}")
@@ -58,7 +58,7 @@ public class UserController {
     @Operation(summary = "User login", description = "Logs in a user with provided credentials")
     public ResponseEntity<?> login(@RequestBody LoginRequest login)
     {
-        Users user = userService.findByEmailAndPassword(login.getEmail());
+        Users user = userService.findByEmail(login.getEmail());
         if(user == null || !user.getPassword().equals(login.getPassword()))
         {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
