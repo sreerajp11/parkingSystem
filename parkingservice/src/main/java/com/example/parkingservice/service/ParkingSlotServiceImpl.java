@@ -1,5 +1,7 @@
 package com.example.parkingservice.service;
 
+import com.example.parkingservice.client.UserClient;
+import com.example.parkingservice.dto.UserDTO;
 import com.example.parkingservice.entity.ParkingSlot;
 import com.example.parkingservice.repository.ParkingSlotServiceRepository;
 import com.example.parkingservice.service.ParkingSlotService;
@@ -7,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class ParkingSlotServiceImpl implements ParkingSlotService {
 
     @Autowired
     private ParkingSlotServiceRepository repo;
+
+    @Autowired
+    private UserClient client;
 
     @Override
     public List<ParkingSlot> getAllSlots() {
@@ -51,6 +57,10 @@ public class ParkingSlotServiceImpl implements ParkingSlotService {
     @Override
     public ParkingSlot occupySlot(Long id, String vehicleNumber) {
         ParkingSlot slot = getSlotById(id);
+        UserDTO user = client.getUserById(id);
+        Logger logger = Logger.getLogger(getClass().getName());
+        logger.info("Slot occupied by: "+ user.getName()+ "with vehicle number: " + vehicleNumber);
+
         slot.setOccupied(true);
         slot.setVehicleNumber(vehicleNumber);
         return repo.save(slot);
