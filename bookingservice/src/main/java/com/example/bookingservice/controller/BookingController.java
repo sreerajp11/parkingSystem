@@ -1,6 +1,7 @@
 package com.example.bookingservice.controller;
 
 import com.example.bookingservice.model.Booking;
+import com.example.bookingservice.service.BookingEventPublisher;
 import com.example.bookingservice.service.BookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,11 +20,14 @@ public class BookingController {
 
     @Autowired
     private BookingService bookingService;
+    @Autowired
+    private BookingEventPublisher eventPublisher;
 
     @PostMapping()
     @Operation(summary = "Create a new booking", description = "Creates a new booking with the provided details")
     public ResponseEntity<Booking> createBooking(@Valid @RequestBody Booking booking) {
         Booking createdBooking = bookingService.createBooking(booking);
+        eventPublisher.sendBookingEvent("Booking created with ID: " + createdBooking.getId());
         return new ResponseEntity<>(createdBooking, HttpStatus.CREATED);
     }
 
