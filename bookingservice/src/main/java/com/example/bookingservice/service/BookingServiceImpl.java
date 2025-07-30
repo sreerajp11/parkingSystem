@@ -8,6 +8,7 @@ import com.example.bookingservice.exceptions.ResourceNotFoundException;
 import com.example.bookingservice.model.Booking;
 import com.example.bookingservice.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,8 +43,10 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.save(booking);
     }
 
+    @Cacheable(value = "bookings", key = "#id")
     @Override
     public Booking getBookingById(Long id) {
+        System.out.println("Fetching booking from DB");
         return bookingRepository.findById(id).orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
     }
 
